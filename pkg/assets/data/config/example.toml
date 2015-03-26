@@ -1,0 +1,22 @@
+# ~/.muxt/{{.}}.toml
+
+name = "{{.}}"
+root = "~/"
+
+[[window]]
+name = "editor"
+layout = "main-vertical"
+
+  [[window.pane]]
+  command = "vim"
+
+  [[window.pane]]
+  command = "guard"
+
+[[window]]
+name = "server"
+command = "bundle exec rails s"
+
+[[window]]
+name = "logs"
+command = "tail -f log/development.log"
