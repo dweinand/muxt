@@ -21,7 +21,10 @@ func start(name string) {
 	if err != nil {
 		panic(err)
 	}
-	tmux.StartSession(session)
+	err = tmux.StartSession(session)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func usage() {
