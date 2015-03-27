@@ -6,6 +6,27 @@ import (
 	"os"
 )
 
+type Session struct {
+	Name      string
+	Root      string
+	Window    []Window
+	Pre       string
+	PreWindow string
+}
+
+type Window struct {
+	Name    string
+	Root    string
+	Layout  string
+	Command string
+	Pane    []Pane
+}
+
+type Pane struct {
+	Name    string
+	Command string
+}
+
 func Parse(buf []byte) (*Session, error) {
 	var config Session
 	err := toml.Unmarshal(buf, &config)
@@ -23,23 +44,4 @@ func Load(path string) (*Session, error) {
 		return nil, err
 	}
 	return Parse(buf)
-}
-
-type Session struct {
-	Name   string
-	Root   string
-	Window []Window
-}
-
-type Window struct {
-	Name    string
-	Root    string
-	Layout  string
-	Command string
-	Pane    []Pane
-}
-
-type Pane struct {
-	Name    string
-	Command string
 }
