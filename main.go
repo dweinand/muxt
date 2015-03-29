@@ -28,24 +28,16 @@ func start(name string) {
 }
 
 func usage() {
-	fmt.Print("muxt start [NAME]\n")
+	fmt.Print("muxt [NAME]\n")
 	os.Exit(1)
 }
 
 func main() {
 	args := os.Args
 	numArgs := len(args)
-	if numArgs < 2 {
+	if numArgs < 1 {
 		usage()
 	}
-	command := args[1]
-	switch command {
-	case "start":
-		if numArgs < 3 {
-			usage()
-		}
-		start(args[2])
-	default:
-		usage()
-	}
+
+	start(args[1])
 }
