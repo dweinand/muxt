@@ -7,6 +7,6 @@ test: assets.go
 clean:
 	rm assets.go muxt
 
-assets.go: assets/tmux/command.sh
+assets.go: assets/**/*
 	go-bindata -pkg=muxt -o assets.go -prefix=assets/ assets/...
 
