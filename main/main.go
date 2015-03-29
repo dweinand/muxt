@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"github.com/dweinand/muxt"
 	"os"
-	"path/filepath"
-	"strings"
 )
 
 func main() {
@@ -19,27 +17,21 @@ func main() {
 }
 
 func start(name string) {
-	session, err := loadConfig(name)
-	assertNoError(err)
+	session, err := muxt.Load(name)
+	exitOnError(err)
 
-	err = muxt.Start(session)
-	assertNoError(err)
+	err = session.Start()
+	exitOnError(err)
 }
 
 func usage() {
-	fmt.Print("muxt [NAME]\n")
+	fmt.Println("muxt [NAME]")
 	os.Exit(1)
 }
 
-func loadConfig(name string) (*muxt.Session, error) {
-	configDir := filepath.Join(os.Getenv("HOME"), ".muxt")
-	configFile := strings.Join([]string{name, ".toml"}, "")
-	configPath := filepath.Join(configDir, configFile)
-	return muxt.Load(configPath)
-}
-
-func assertNoError(err error) {
+func exitOnError(err error) {
 	if err != nil {
-		panic(err)
+		fmt.Printf("[error] %v\n", err)
+		os.Exit(1)
 	}
 }

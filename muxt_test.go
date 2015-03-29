@@ -44,3 +44,37 @@ func TestLoad(t *testing.T) {
 	}
 	assert.Equal(t, actual, expect)
 }
+
+func TestLoadName(t *testing.T) {
+	ConfigDir = "assets/config"
+	name := "test"
+	expect := testSessionConfig()
+	actual, err := Load(name)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, actual, expect)
+}
+
+func TestLoadNameWithExt(t *testing.T) {
+	oldConfigDir := ConfigDir
+	ConfigDir = "assets/config"
+	name := "test.toml"
+	expect := testSessionConfig()
+	actual, err := Load(name)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, actual, expect)
+	ConfigDir = oldConfigDir
+}
+
+func TestLoadEmpty(t *testing.T) {
+	path := "assets/config/empty.toml"
+	expect := &Session{Name: "empty"}
+	actual, err := Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, actual, expect)
+}
