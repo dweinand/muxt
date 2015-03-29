@@ -35,10 +35,12 @@ type Pane struct {
 
 var ConfigDir string
 var homeDir string
+var shellExec func(string) error
 
 func init() {
 	homeDir = os.Getenv("HOME")
 	ConfigDir = filepath.Join(homeDir, ".muxt")
+	shellExec = shell.Exec
 }
 
 func Parse(buf []byte) (*Session, error) {
@@ -74,15 +76,12 @@ func Load(name string) (*Session, error) {
 }
 
 func PathFromName(name string) string {
-	if _, err := os.Stat(name); err != nil {
-		if os.IsNotExist(err) {
-			if filepath.Ext(name) != ".toml" {
-				name = fmt.Sprintf("%v.toml", name)
-			}
-			return filepath.Join(ConfigDir, name)
-		} else {
-			return ""
+	_, err := os.Stat(name)
+	if err != nil && os.IsNotExist(err) {
+		if filepath.Ext(name) != ".toml" {
+			name = fmt.Sprintf("%v.toml", name)
 		}
+		return filepath.Join(ConfigDir, name)
 	}
 
 	return name
@@ -99,7 +98,7 @@ func (s *Session) Start() error {
 		return err
 	}
 
-	err = shell.Exec(command)
+	err = shellExec(command)
 	if err != nil {
 		return err
 	}

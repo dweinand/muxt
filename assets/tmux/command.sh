@@ -15,7 +15,7 @@ init_tmux_commands() {
   if [ "$?" -eq 1 ]; then
     base_index=`get_tmux_config "base-index"`
 
-    TMUX=`tmux new-session -d -s {{.Name}}{{with (index .Window 0)}} -n {{.Name}}{{if .Root}} -c {{.Root}}{{end}}{{end}}`
+    TMUX=`tmux new-session -d -s {{.Name}}{{if (gt (len .Window) 0)}}{{with (index .Window 0)}} -n {{.Name}}{{if .Root}} -c {{.Root}}{{end}}{{end}}{{end}}`
   {{range $idx, $window := .Window}}
     echo "setting up window $(({{$idx}}+$base_index))"
     window_target={{$session.Name}}:$(({{$idx}}+$base_index))
@@ -30,7 +30,6 @@ init_tmux_commands() {
     {{if $window.Layout}}tmux select-layout -t $window_target {{$window.Layout}}{{end}}
 
   {{end}}
-
     tmux select-window -t $base_index
   fi
 
@@ -43,4 +42,4 @@ init_tmux_commands() {
 
 cd {{.Root}}
 {{if .Pre}}{{.Pre}}{{end}}
-init_tmux_commands #> /dev/null
+init_tmux_commands > /dev/null
