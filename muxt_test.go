@@ -24,20 +24,20 @@ func testSessionConfig() *Session {
 				Layout: "main-vertical",
 				Pane: []Pane{
 					{
-						Command: "vim",
+						Commands: []string{"vim"},
 					},
 					{
-						Command: "guard",
+						Commands: []string{"guard"},
 					},
 				},
 			},
 			{
-				Name:    "server",
-				Command: "bundle exec rails s",
+				Name:     "server",
+				Commands: []string{"bundle exec rails s"},
 			},
 			{
-				Name:    "logs",
-				Command: "tail -f log/development.log",
+				Name:     "logs",
+				Commands: []string{"tail -f log/development.log"},
 			},
 		},
 	}

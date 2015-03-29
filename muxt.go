@@ -21,16 +21,16 @@ type Session struct {
 }
 
 type Window struct {
-	Name    string
-	Root    string
-	Layout  string
-	Command string
-	Pane    []Pane
+	Name     string
+	Root     string
+	Layout   string
+	Commands []string
+	Pane     []Pane
 }
 
 type Pane struct {
-	Name    string
-	Command string
+	Name     string
+	Commands []string
 }
 
 var ConfigDir string

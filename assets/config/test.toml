@@ -6,15 +6,15 @@ name = "editor"
 layout = "main-vertical"
 
   [[window.pane]]
-  command = "vim"
+  commands = ["vim"]
 
   [[window.pane]]
-  command = "guard"
+  commands = ["guard"]
 
 [[window]]
 name = "server"
-command = "bundle exec rails s"
+commands = ["bundle exec rails s"]
 
 [[window]]
 name = "logs"
-command = "tail -f log/development.log"
+commands = ["tail -f log/development.log"]
