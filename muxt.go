@@ -1,9 +1,12 @@
-package config
+package muxt
 
 import (
+	"bytes"
+	"github.com/dweinand/shell"
 	"github.com/naoina/toml"
 	"io/ioutil"
 	"os"
+	"text/template"
 )
 
 type Session struct {
@@ -44,4 +47,32 @@ func Load(path string) (*Session, error) {
 		return nil, err
 	}
 	return Parse(buf)
+}
+func Start(sessionConfig *Session) error {
+	command, err := StartUpScript(sessionConfig)
+	if err != nil {
+		return err
+	}
+	err = shell.Exec(command)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func StartUpScript(sessionConfig *Session) (string, error) {
+	var b bytes.Buffer
+	command, err := Asset("tmux/command.sh")
+	if err != nil {
+		return "", err
+	}
+	tmpl, err := template.New("command").Parse(string(command))
+	if err != nil {
+		return "", err
+	}
+	err = tmpl.Execute(&b, sessionConfig)
+	if err != nil {
+		return "", err
+	}
+	return b.String(), nil
 }

@@ -1,4 +1,4 @@
-package config
+package muxt
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -36,7 +36,7 @@ func testSessionConfig() *Session {
 }
 
 func TestLoad(t *testing.T) {
-	path := "test.toml"
+	path := "assets/config/test.toml"
 	expect := testSessionConfig()
 	actual, err := Load(path)
 	if err != nil {
