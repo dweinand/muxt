@@ -1,18 +1,10 @@
 package muxt
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"regexp"
 	"testing"
 )
-
-func init() {
-	shellExec = func(s string) error {
-		fmt.Print(s)
-		return nil
-	}
-}
 
 func testSessionConfig() *Session {
 	session := &Session{
@@ -80,15 +72,14 @@ func TestLoadEmpty(t *testing.T) {
 	assert.Equal(t, actual, expect)
 }
 
-func TestStart(t *testing.T) {
+func TestScript(t *testing.T) {
 	session := &Session{Name: "snaggletooth"}
-	shellExec = func(s string) error {
-		pattern := "has-session -t snaggletooth"
-		matched, err := regexp.MatchString(pattern, s)
-		assert.Nil(t, err)
-		assert.True(t, matched)
-		return nil
-	}
-	err := session.Start()
+
+	script, err := session.Script()
 	assert.Nil(t, err)
+
+	pattern := "has-session -t snaggletooth"
+	matched, err := regexp.MatchString(pattern, script)
+	assert.Nil(t, err)
+	assert.True(t, matched)
 }

@@ -3,10 +3,10 @@ package muxt
 import (
 	"bytes"
 	"fmt"
-	"github.com/dweinand/shell"
 	"github.com/naoina/toml"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -35,12 +35,10 @@ type Pane struct {
 
 var ConfigDir string
 var homeDir string
-var shellExec func(string) error
 
 func init() {
 	homeDir = os.Getenv("HOME")
 	ConfigDir = filepath.Join(homeDir, ".muxt")
-	shellExec = shell.Exec
 }
 
 func Parse(buf []byte) (*Session, error) {
@@ -93,12 +91,14 @@ func NameFromPath(path string) string {
 }
 
 func (s *Session) Start() error {
-	command, err := s.Script()
+	script, err := s.Script()
 	if err != nil {
 		return err
 	}
 
-	err = shellExec(command)
+	cmd := exec.Command("sh", "-c", script)
+
+	err = cmd.Run()
 	if err != nil {
 		return err
 	}
