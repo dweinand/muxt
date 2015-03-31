@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"text/template"
 )
 
@@ -96,11 +97,12 @@ func (s *Session) Start() error {
 		return err
 	}
 
-	cmd := exec.Command("sh", "-c", script)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	sh, err := exec.LookPath("sh")
+	if err != nil {
+		return err
+	}
 
-	err = cmd.Run()
+	err = syscall.Exec(sh, []string{"sh", "-c", script}, os.Environ())
 	if err != nil {
 		return err
 	}
