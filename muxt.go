@@ -97,6 +97,8 @@ func (s *Session) Start() error {
 	}
 
 	cmd := exec.Command("sh", "-c", script)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 
 	err = cmd.Run()
 	if err != nil {
