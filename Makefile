@@ -8,7 +8,7 @@ build: muxt
 
 assets: assets.go
 
-muxt: *.go main/*.go
+muxt: *.go main/main.go assets.go
 	cd main && go build -v -o ../muxt
 
 assets.go: assets/**/*
