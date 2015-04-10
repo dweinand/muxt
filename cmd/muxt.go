@@ -1,37 +1,33 @@
 package main
 
 import (
-	"fmt"
 	"github.com/dweinand/muxt"
+	"log"
 	"os"
 )
 
 func main() {
-	args := os.Args
-	numArgs := len(args)
-	if numArgs < 2 {
+	log.SetFlags(0)
+
+	if len(os.Args) != 2 {
 		usage()
 	}
 
-	start(args[1])
+	start(os.Args[1])
 }
 
 func start(name string) {
 	session, err := muxt.Load(name)
-	exitOnError(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	err = session.Start()
-	exitOnError(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func usage() {
-	fmt.Println("muxt [NAME]")
-	os.Exit(1)
-}
-
-func exitOnError(err error) {
-	if err != nil {
-		fmt.Printf("[error] %v\n", err)
-		os.Exit(1)
-	}
+	log.Fatal("Usage: muxt [NAME]")
 }
