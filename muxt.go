@@ -34,19 +34,19 @@ type Pane struct {
 	Commands []string
 }
 
-var ConfigDir string
-var homeDir string
-
-func init() {
-	homeDir = os.Getenv("HOME")
+var (
+	homeDir   = os.Getenv("HOME")
 	ConfigDir = filepath.Join(homeDir, ".muxt")
-}
+)
 
 func Parse(buf []byte) (*Session, error) {
 	var session Session
-	err := toml.Unmarshal(buf, &session)
 
-	return &session, err
+	if err := toml.Unmarshal(buf, &session); err != nil {
+		return nil, err
+	}
+
+	return &session, nil
 }
 
 func Load(name string) (*Session, error) {
@@ -80,6 +80,7 @@ func PathFromName(name string) string {
 		if filepath.Ext(name) != ".toml" {
 			name = fmt.Sprintf("%v.toml", name)
 		}
+
 		return filepath.Join(ConfigDir, name)
 	}
 
@@ -88,6 +89,7 @@ func PathFromName(name string) string {
 
 func NameFromPath(path string) string {
 	path = filepath.Base(path)
+
 	return strings.Replace(path, filepath.Ext(path), "", 1)
 }
 
