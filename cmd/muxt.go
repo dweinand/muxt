@@ -9,7 +9,7 @@ import (
 func main() {
 	args := os.Args
 	numArgs := len(args)
-	if numArgs < 1 {
+	if numArgs < 2 {
 		usage()
 	}
 
