@@ -4,12 +4,15 @@ prefix ?= /usr/local
 
 all: build
 
-build: muxt
+build: bin/muxt
 
 assets: assets.go
 
-muxt: *.go main/main.go assets.go
-	cd main && go build -v -o ../muxt
+bin/muxt: bin *.go cmd/muxt.go assets.go
+	cd cmd && go build -v -o ../bin/muxt
+
+bin:
+	mkdir bin
 
 assets.go: assets/**/*
 	go-bindata -pkg=muxt -o assets.go -prefix=assets/ assets/...
@@ -22,5 +25,5 @@ install: all
 	install muxt $(prefix)/bin
 
 clean:
-	rm -f assets.go muxt
+	rm -rf assets.go bin
 
