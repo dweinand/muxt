@@ -22,7 +22,7 @@ test: assets
 
 install: all
 	install -d $(prefix)/bin
-	install muxt $(prefix)/bin
+	install bin/muxt $(prefix)/bin
 
 clean:
 	rm -rf assets.go bin
