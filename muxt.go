@@ -14,11 +14,12 @@ import (
 )
 
 type Session struct {
-	Name      string
-	Root      string
-	Window    []Window
-	Pre       string
-	PreWindow string
+	Name       string
+	Root       string
+	Window     []Window
+	Pre        string
+	PreWindow  string
+	execScript func(string) error
 }
 
 type Window struct {
@@ -35,22 +36,34 @@ type Pane struct {
 }
 
 var (
-	homeDir   = os.Getenv("HOME")
-	ConfigDir = filepath.Join(homeDir, ".muxt")
+	ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
 )
 
-func Parse(buf []byte) (*Session, error) {
-	var session Session
+func NewSession() *Session {
+	return &Session{
+		execScript: func(script string) error {
+			sh, err := exec.LookPath("sh")
+			if err != nil {
+				return err
+			}
 
-	if err := toml.Unmarshal(buf, &session); err != nil {
+			return syscall.Exec(sh, []string{"sh", "-c", script}, os.Environ())
+		},
+	}
+}
+
+func Parse(buf []byte) (*Session, error) {
+	session := NewSession()
+
+	if err := toml.Unmarshal(buf, session); err != nil {
 		return nil, err
 	}
 
-	return &session, nil
+	return session, nil
 }
 
 func Load(name string) (*Session, error) {
-	path := PathFromName(name)
+	path := pathFromName(name)
 
 	f, err := os.Open(path)
 	if err != nil {
@@ -68,13 +81,13 @@ func Load(name string) (*Session, error) {
 		return nil, err
 	}
 	if session.Name == "" {
-		session.Name = NameFromPath(path)
+		session.Name = nameFromPath(path)
 	}
 
 	return session, nil
 }
 
-func PathFromName(name string) string {
+func pathFromName(name string) string {
 	_, err := os.Stat(name)
 	if err != nil && os.IsNotExist(err) {
 		if filepath.Ext(name) != ".toml" {
@@ -87,7 +100,7 @@ func PathFromName(name string) string {
 	return name
 }
 
-func NameFromPath(path string) string {
+func nameFromPath(path string) string {
 	path = filepath.Base(path)
 
 	return strings.Replace(path, filepath.Ext(path), "", 1)
@@ -99,17 +112,7 @@ func (s *Session) Start() error {
 		return err
 	}
 
-	sh, err := exec.LookPath("sh")
-	if err != nil {
-		return err
-	}
-
-	err = syscall.Exec(sh, []string{"sh", "-c", script}, os.Environ())
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return s.execScript(script)
 }
 
 func (s *Session) Script() (string, error) {
