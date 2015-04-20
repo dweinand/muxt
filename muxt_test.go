@@ -8,36 +8,6 @@ import (
 
 var oldConfigDir string
 
-func testSessionConfig() *Session {
-	session := NewSession()
-	session.Name = "test"
-	session.Root = "~/"
-	session.Window = []Window{
-		{
-			Name:   "editor",
-			Layout: "main-vertical",
-			Pane: []Pane{
-				{
-					Commands: []string{"vim"},
-				},
-				{
-					Commands: []string{"guard"},
-				},
-			},
-		},
-		{
-			Name:     "server",
-			Commands: []string{"bundle exec rails s"},
-		},
-		{
-			Name:     "logs",
-			Commands: []string{"tail -f log/development.log"},
-		},
-	}
-
-	return session
-}
-
 func TestLoad(t *testing.T) {
 	path := "assets/config/test.toml"
 
@@ -116,4 +86,34 @@ func TestScript(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.True(t, matched)
+}
+
+func testSessionConfig() *Session {
+	session := NewSession()
+	session.Name = "test"
+	session.Root = "~/"
+	session.Window = []Window{
+		{
+			Name:   "editor",
+			Layout: "main-vertical",
+			Pane: []Pane{
+				{
+					Commands: []string{"vim"},
+				},
+				{
+					Commands: []string{"guard"},
+				},
+			},
+		},
+		{
+			Name:     "server",
+			Commands: []string{"bundle exec rails s"},
+		},
+		{
+			Name:     "logs",
+			Commands: []string{"tail -f log/development.log"},
+		},
+	}
+
+	return session
 }

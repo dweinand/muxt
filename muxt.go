@@ -13,6 +13,10 @@ import (
 	"text/template"
 )
 
+var (
+	ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
+)
+
 type Session struct {
 	Name       string
 	Root       string
@@ -34,10 +38,6 @@ type Pane struct {
 	Name     string
 	Commands []string
 }
-
-var (
-	ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
-)
 
 func NewSession() *Session {
 	return &Session{
