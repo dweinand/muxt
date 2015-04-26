@@ -6,16 +6,16 @@ all: build
 
 build: bin/muxt
 
-assets: assets.go
+assets: assets/assets.go
 
-bin/muxt: bin *.go cmd/muxt.go assets.go
+bin/muxt: bin *.go cmd/muxt.go assets/assets.go
 	cd cmd && go build -v -o ../bin/muxt
 
 bin:
 	mkdir bin
 
-assets.go: assets/**/*
-	go-bindata -pkg=muxt -o assets.go -prefix=assets/ assets/...
+assets/assets.go: assets/**/*
+	go-bindata -pkg=assets -o assets/assets.go -prefix=assets/ assets/...
 
 test: assets
 	go test
@@ -25,5 +25,5 @@ install: all
 	install bin/muxt $(prefix)/bin
 
 clean:
-	rm -rf assets.go bin
+	rm -rf assets/assets.go bin
 

@@ -3,6 +3,7 @@ package muxt
 import (
 	"bytes"
 	"fmt"
+	"github.com/dweinand/muxt/assets"
 	"github.com/naoina/toml"
 	"io/ioutil"
 	"os"
@@ -118,7 +119,7 @@ func (s *Session) Start() error {
 func (s *Session) Script() (string, error) {
 	var b bytes.Buffer
 
-	command, err := Asset("tmux/command.sh")
+	command, err := assets.Asset("tmux/command.sh")
 	if err != nil {
 		return "", err
 	}
