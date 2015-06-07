@@ -14,10 +14,10 @@ import (
 	"text/template"
 )
 
-var (
-	ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
-)
+// ConfigDir is the location where muxt will look for config files
+var ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
 
+// Session is a session configuration
 type Session struct {
 	Name       string
 	Root       string
@@ -27,6 +27,7 @@ type Session struct {
 	execScript func(string) error
 }
 
+// Window is a window configuration
 type Window struct {
 	Name     string
 	Root     string
@@ -35,11 +36,13 @@ type Window struct {
 	Pane     []Pane
 }
 
+// Pane is a pane configuration
 type Pane struct {
 	Name     string
 	Commands []string
 }
 
+// NewSession creates a new empty Session
 func NewSession() *Session {
 	return &Session{
 		execScript: func(script string) error {
@@ -53,6 +56,7 @@ func NewSession() *Session {
 	}
 }
 
+// Parse converts toml data into a Session
 func Parse(buf []byte) (*Session, error) {
 	session := NewSession()
 
@@ -63,6 +67,7 @@ func Parse(buf []byte) (*Session, error) {
 	return session, nil
 }
 
+// Load looks for a toml config file and then parses it into a Session
 func Load(name string) (*Session, error) {
 	path := pathFromName(name)
 
@@ -107,6 +112,7 @@ func nameFromPath(path string) string {
 	return strings.Replace(path, filepath.Ext(path), "", 1)
 }
 
+// Start launches tmux and loads the Session
 func (s *Session) Start() error {
 	script, err := s.Script()
 	if err != nil {
@@ -116,6 +122,7 @@ func (s *Session) Start() error {
 	return s.execScript(script)
 }
 
+// Script returns the generated shell commands without executing them
 func (s *Session) Script() (string, error) {
 	var b bytes.Buffer
 
