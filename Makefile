@@ -1,6 +1,6 @@
 prefix ?= /usr/local
 
-.PHONY: all build assets test install clean
+.PHONY: all build assets dependencies test install clean
 
 all: build
 
@@ -8,7 +8,10 @@ build: bin/muxt
 
 assets: src/muxt/assets/assets.go
 
-bin/muxt: bin assets src/muxt/**/*.go
+dependencies:
+	gb vendor restore
+
+bin/muxt: bin dependencies assets src/muxt/**/*.go
 	gb build
 
 bin:
@@ -30,5 +33,5 @@ clean:
 vendor/bin:
 	mkdir -p vendor/bin
 
-vendor/bin/go-bindata: vendor/bin
+vendor/bin/go-bindata: vendor/bin dependencies
 	GOPATH=$(PWD)/vendor go build -o vendor/bin/go-bindata github.com/jteeuwen/go-bindata/go-bindata
