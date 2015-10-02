@@ -61,16 +61,14 @@ func TestLoadEmpty(t *testing.T) {
 
 func TestStart(t *testing.T) {
 	pattern := "has-session -t snaggletooth"
-	session := &Session{
-		Name: "snaggletooth",
-		execScript: func(script string) error {
-			matched, err := regexp.MatchString(pattern, script)
+	session := &Session{Name: "snaggletooth"}
+	execScript = func(script string) error {
+		matched, err := regexp.MatchString(pattern, script)
 
-			assert.Nil(t, err)
-			assert.True(t, matched)
+		assert.Nil(t, err)
+		assert.True(t, matched)
 
-			return nil
-		},
+		return nil
 	}
 
 	session.Start()

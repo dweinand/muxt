@@ -17,6 +17,15 @@ import (
 // ConfigDir is the location where muxt will look for config files
 var ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
 
+var execScript = func(script string) error {
+	sh, err := exec.LookPath("sh")
+	if err != nil {
+		return err
+	}
+
+	return syscall.Exec(sh, []string{"sh", "-c", script}, os.Environ())
+}
+
 // Session is a session configuration
 type Session struct {
 	Name       string
@@ -44,16 +53,7 @@ type Pane struct {
 
 // NewSession creates a new empty Session
 func NewSession() *Session {
-	return &Session{
-		execScript: func(script string) error {
-			sh, err := exec.LookPath("sh")
-			if err != nil {
-				return err
-			}
-
-			return syscall.Exec(sh, []string{"sh", "-c", script}, os.Environ())
-		},
-	}
+	return &Session{}
 }
 
 // Parse converts toml data into a Session
@@ -119,7 +119,7 @@ func (s *Session) Start() error {
 		return err
 	}
 
-	return s.execScript(script)
+	return execScript(script)
 }
 
 // Script returns the generated shell commands without executing them
