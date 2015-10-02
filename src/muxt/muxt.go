@@ -3,9 +3,9 @@ package muxt
 import (
 	"bytes"
 	"fmt"
-	"github.com/dweinand/muxt/assets"
 	"github.com/naoina/toml"
 	"io/ioutil"
+	"muxt/assets"
 	"os"
 	"os/exec"
 	"path/filepath"

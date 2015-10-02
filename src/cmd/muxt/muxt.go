@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/dweinand/muxt"
 	"log"
+	"muxt"
 	"os"
 )
 

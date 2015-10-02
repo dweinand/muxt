@@ -1,2 +1,6 @@
-muxt
 assets.go
+/bin
+/pkg
+/vendor/bin
+/vendor/pkg
+/vendor/src

@@ -11,11 +11,11 @@ var oldConfigDir string
 func TestLoad(t *testing.T) {
 	path := "assets/config/test.toml"
 
-	expect := testSessionConfig()
+	expected := testSessionConfig()
 	actual, err := Load(path)
 
 	assert.Nil(t, err)
-	assert.Equal(t, actual, expect)
+	assert.Equal(t, actual, expected)
 }
 
 func TestLoadName(t *testing.T) {
@@ -26,11 +26,11 @@ func TestLoadName(t *testing.T) {
 
 	name := "test"
 
-	expect := testSessionConfig()
+	expected := testSessionConfig()
 	actual, err := Load(name)
 
 	assert.Nil(t, err)
-	assert.Equal(t, actual, expect)
+	assert.Equal(t, actual, expected)
 }
 
 func TestLoadNameWithExt(t *testing.T) {
@@ -41,22 +41,22 @@ func TestLoadNameWithExt(t *testing.T) {
 
 	name := "test.toml"
 
-	expect := testSessionConfig()
+	expected := testSessionConfig()
 	actual, err := Load(name)
 
 	assert.Nil(t, err)
-	assert.Equal(t, actual, expect)
+	assert.Equal(t, actual, expected)
 }
 
 func TestLoadEmpty(t *testing.T) {
 	path := "assets/config/empty.toml"
 
-	expect := NewSession()
-	expect.Name = "empty"
+	expected := NewSession()
+	expected.Name = "empty"
 	actual, err := Load(path)
 
 	assert.Nil(t, err)
-	assert.Equal(t, actual, expect)
+	assert.Equal(t, actual, expected)
 }
 
 func TestStart(t *testing.T) {
