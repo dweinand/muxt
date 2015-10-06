@@ -7,24 +7,14 @@ import (
 	"io/ioutil"
 	"muxt/assets"
 	"os"
-	"os/exec"
 	"path/filepath"
+	"shell"
 	"strings"
-	"syscall"
 	"text/template"
 )
 
 // ConfigDir is the location where muxt will look for config files
 var ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
-
-var execScript = func(script string) error {
-	sh, err := exec.LookPath("sh")
-	if err != nil {
-		return err
-	}
-
-	return syscall.Exec(sh, []string{"sh", "-c", script}, os.Environ())
-}
 
 // Session is a session configuration
 type Session struct {
@@ -113,13 +103,13 @@ func nameFromPath(path string) string {
 }
 
 // Start launches tmux and loads the Session
-func (s *Session) Start() error {
+func (s *Session) Start(sh shell.Execer) error {
 	script, err := s.Script()
 	if err != nil {
 		return err
 	}
 
-	return execScript(script)
+	return sh.Exec(script)
 }
 
 // Script returns the generated shell commands without executing them

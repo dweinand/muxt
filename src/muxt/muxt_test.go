@@ -6,7 +6,16 @@ import (
 	"testing"
 )
 
+type fakeShell struct {
+	script string
+}
+
 var oldConfigDir string
+
+func (f *fakeShell) Exec(script string) error {
+	f.script = script
+	return nil
+}
 
 func TestLoad(t *testing.T) {
 	path := "assets/config/test.toml"
@@ -62,16 +71,14 @@ func TestLoadEmpty(t *testing.T) {
 func TestStart(t *testing.T) {
 	pattern := "has-session -t snaggletooth"
 	session := &Session{Name: "snaggletooth"}
-	execScript = func(script string) error {
-		matched, err := regexp.MatchString(pattern, script)
 
-		assert.Nil(t, err)
-		assert.True(t, matched)
+	sh := &fakeShell{}
 
-		return nil
-	}
+	session.Start(sh)
+	matched, err := regexp.MatchString(pattern, sh.script)
 
-	session.Start()
+	assert.Nil(t, err)
+	assert.True(t, matched)
 }
 
 func TestScript(t *testing.T) {

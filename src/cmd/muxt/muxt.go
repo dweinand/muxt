@@ -4,6 +4,7 @@ import (
 	"log"
 	"muxt"
 	"os"
+	"shell"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func start(name string) {
 		log.Fatal(err)
 	}
 
-	err = session.Start()
+	err = session.Start(shell.New("sh"))
 	if err != nil {
 		log.Fatal(err)
 	}
