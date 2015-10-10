@@ -2,7 +2,7 @@ prefix ?= /usr/local
 
 .PHONY: all build assets dependencies test install clean
 
-all: build
+all: test build
 
 build: bin/muxt
 
