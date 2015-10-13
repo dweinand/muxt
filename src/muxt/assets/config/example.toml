@@ -1,22 +1,40 @@
-# ~/.muxt/{{.}}.toml
+# ~/.muxt/example.toml
 
-name = "{{.}}"
+name = "example"
 root = "~/"
 
+# You can also use environment variables
+# root = "$HOME"
+
+# Runs before the tmux session is created.
+# pre = "postgres -D /usr/local/var/postgres"
+
+# Runs in each window before the window's commands
+# pre_window = "rbenv shell 2.2.2"
+
 [[window]]
-name = "editor"
+name = "dotfiles"
+root = "$DOTFILES"
+layout = "main-horizontal"
+
+  [[window.pane]]
+  commands = ["vim"]
+
+  [[window.pane]]
+
+[[window]]
+name = "web"
+root = "~/code/web-project"
 layout = "main-vertical"
 
   [[window.pane]]
   commands = ["vim"]
 
   [[window.pane]]
-  commands = ["guard"]
+  commands = ["browser-sync start --server --files 'css/*.css'"]
+
+  [[window.pane]]
 
 [[window]]
-name = "server"
-commands = ["bundle exec rails s"]
-
-[[window]]
-name = "logs"
-commands = ["tail -f log/development.log"]
+name = "remote-server"
+commands = ["ssh foo@example.com"]
