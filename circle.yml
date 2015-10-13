@@ -6,6 +6,4 @@ dependencies:
 
 test:
   override:
-    - make test
-  post:
-    - make build
+    - make
