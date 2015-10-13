@@ -2,6 +2,12 @@
 	"version": 0,
 	"dependencies": [
 		{
+			"importpath": "github.com/jteeuwen/go-bindata",
+			"repository": "https://github.com/jteeuwen/go-bindata",
+			"revision": "bfe36d3254337b7cc18024805dfab2106613abdf",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/naoina/go-stringutil",
 			"repository": "https://github.com/naoina/go-stringutil",
 			"revision": "360db0db4b01d34e12a2ec042c09e7d37fece761",
