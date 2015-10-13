@@ -8,7 +8,7 @@ test:
   override:
     - make test
   post:
-    - GOOS=darwin GOARCH=amd64 gb build
+    # - GOOS=darwin GOARCH=amd64 gb build
     - GOOS=linux GOARCH=amd64 gb build
 
 general:
