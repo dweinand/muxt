@@ -53,6 +53,12 @@ This project is intended to be a safe, welcoming space for collaboration, and
 contributors are expected to adhere to the [Contributor Covenant][coc] code of
 conduct.
 
+## Acknowledgments
+
+Muxt is inspired by similar tools:
+* [teamocil](https://github.com/remiprev/teamocil)
+* [tmuxinator](https://github.com/tmuxinator/tmuxinator)
+
 ## License
 
 Muxt is available as open source under the terms of the [MIT License][mit].
