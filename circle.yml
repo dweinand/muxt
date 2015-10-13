@@ -6,4 +6,11 @@ dependencies:
 
 test:
   override:
-    - make
+    - make test
+  post:
+    - GOOS=darwin GOARCH=amd64 gb build
+    - GOOS=linux GOARCH=amd64 gb build
+
+general:
+  artifacts:
+    - bin
