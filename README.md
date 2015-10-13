@@ -6,6 +6,16 @@
 
 A commandline tool for setting up tmux environments.
 
+## Installation
+
+If you use homebrew, installation is as simple as:
+
+```shell
+brew tap dweinand/utilities
+brew install muxt
+```
+Otherwise you can download a binary for the [latest release][latest-release].
+
 ## Usage
 
 Muxt uses [TOML][toml]-based config files for defining your tmux sessions.
@@ -63,6 +73,7 @@ Muxt is inspired by similar tools:
 
 Muxt is available as open source under the terms of the [MIT License][mit].
 
+[latest-release]:https://github.com/dweinand/muxt/releases/latest
 [toml]:https://github.com/toml-lang/toml/blob/master/versions/en/toml-v0.4.0.md
 [example]:https://github.com/dweinand/muxt/blob/master/src/muxt/assets/config/example.toml
 [gb]:http://getgb.io/
