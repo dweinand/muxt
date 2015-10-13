@@ -13,7 +13,7 @@ base_index=`get_tmux_config "base-index"`
 tmux start-server\; has-session -t {{.Name}} 2>/dev/null
 
 if [ "$?" -eq 1 ]; then
-  {{if .Root}}cd {{.Root}}{{end}}
+  {{if .Root}}cd "{{.Root}}"{{end}}
   {{if .Pre}}{{.Pre}}{{end}}
   echo "creating new session"
 
@@ -21,7 +21,7 @@ if [ "$?" -eq 1 ]; then
   {{range $idx, $window := .Window}}
   echo "setting up window $(({{$idx}}+$base_index))"
   window_target={{$session.Name}}:$(({{$idx}}+$base_index))
-  {{if (gt $idx 0)}}tmux new-window -n {{$window.Name}} -t {{$session.Name}}{{if $window.Root}} -c {{.Root}}{{end}}{{end}}
+  {{if (gt $idx 0)}}tmux new-window -n {{$window.Name}} -t {{$session.Name}}{{if $window.Root}} -c "{{.Root}}"{{end}}{{end}}
   {{if $session.PreWindow}}tmux send-keys -t $window_target "{{$session.PreWindow}}" C-m{{end}}
   {{range $cidx, $cmd := $window.Commands}}
   tmux send-keys -t $window_target "{{$cmd}}" C-m
