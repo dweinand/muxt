@@ -1,5 +1,9 @@
 # muxt
 
+![circleci](https://circleci.com/gh/dweinand/muxt.svg?style=shield&circle-token=:circle-token)
+
+
+
 A commandline tool for setting up tmux environments.
 
 ## Usage
