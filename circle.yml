@@ -1,16 +1,21 @@
+machine:
+  post:
+    - sudo rm -rf /usr/local/go
+    - if [ ! -e go1.6.linux-amd64.tar.gz ]; then curl -o go1.6.linux-amd64.tar.gz https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz; fi
+    - sudo tar -C /usr/local -xzf go1.6.linux-amd64.tar.gz
 dependencies:
+  cache_directories:
+    - ~/go1.6.linux-amd64.tar.gz
   pre:
     - go get github.com/constabulary/gb/...
   override:
     - make dependencies
-
 test:
   override:
     - make test
   post:
-    # - GOOS=darwin GOARCH=amd64 gb build
-    - GOOS=linux GOARCH=amd64 gb build
-
+    - GOOS=darwin GOARCH=amd64 make build
+    - GOOS=linux GOARCH=amd64 make build
 general:
   artifacts:
     - bin
