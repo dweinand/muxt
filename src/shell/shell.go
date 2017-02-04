@@ -6,18 +6,23 @@ import (
 	"syscall"
 )
 
+// Execer is an interface that wraps the Exec method.
 type Execer interface {
 	Exec(string) error
 }
-type sh struct {
+
+// Sh implements Execer.
+type Sh struct {
 	name string
 }
 
-func New(name string) *sh {
-	return &sh{name: name}
+// New creates a new shell.
+func New(name string) *Sh {
+	return &Sh{name: name}
 }
 
-func (s *sh) Exec(script string) error {
+// Exec runs a script
+func (s *Sh) Exec(script string) error {
 	path, err := exec.LookPath(s.name)
 	if err != nil {
 		return err
