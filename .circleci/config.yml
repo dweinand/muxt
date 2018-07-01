@@ -4,7 +4,7 @@ defaults: &defaults
   docker:
     - image: circleci/golang:1.10.3
   environment:
-    GOPATH: ~/.go
+    GOPATH: /go
 
 jobs:
   build:
