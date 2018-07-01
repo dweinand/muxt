@@ -1,6 +1,6 @@
 # muxt
 
-![circleci](https://circleci.com/gh/dweinand/muxt.svg?style=shield&circle-token=:circle-token)
+[![CircleCI](https://circleci.com/gh/dweinand/muxt.svg?style=svg&circle-token=d2dda66af3767333a8c0193974fd53b7df1ca619)]
 
 
 
