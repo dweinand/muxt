@@ -25,7 +25,7 @@ jobs:
       - store_artifacts:
           path: bin
       - persist_to_workspace:
-          root: ~/muxt
+          root: /home/circleci/muxt
   release:
     <<: *defaults
     steps:
