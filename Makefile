@@ -21,9 +21,6 @@ dependencies:
 test: assets
 	vgo test -race -coverprofile=coverage.txt -covermode=atomic
 
-coverage:
-	bash <(curl -s https://codecov.io/bash)
-
 install: all
 	install -d $(prefix)/bin
 	install bin/muxt $(prefix)/bin

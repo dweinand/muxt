@@ -4,3 +4,5 @@ assets.go
 /vendor/bin
 /vendor/pkg
 /vendor/src
+
+coverage.txt

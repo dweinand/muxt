@@ -20,7 +20,7 @@ jobs:
           command: make test
       - run:
           name: Upload to Codecov.io
-          command: make coverage
+          command: bash <(curl -s https://codecov.io/bash)
       - run: OSES="darwin linux" make build
       - store_artifacts:
           path: bin
