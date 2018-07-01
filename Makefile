@@ -1,28 +1,23 @@
 prefix ?= /usr/local
 
-.PHONY: all build assets dependencies test install clean
+.PHONY: all build assets test install clean
 
-all: dependencies test build
+all: test build
 
-build: assets src/muxt/**/*.go
-	gb build
+build: assets **/*.go
+	vgo build github.com/dweinand/muxt/cmd/muxt -o bin/muxt
+	packr clean
 
-assets: src/muxt/assets/assets.go
-
-dependencies:
-	gb vendor restore
-	cd vendor && gb build
-
-src/muxt/assets/assets.go: src/muxt/assets/**/*
-	vendor/bin/go-bindata -pkg=assets -o src/muxt/assets/assets.go -prefix=src/muxt/assets/ src/muxt/assets/...
+assets:
+	go get -u github.com/gobuffalo/packr/packr
+	packr
 
 test: assets
-	gb test
+	vgo test
 
 install: all
 	install -d $(prefix)/bin
 	install bin/muxt $(prefix)/bin
 
 clean:
-	rm -rf src/muxt/assets/assets.go bin pkg
-
+	rm -rf bin pkg

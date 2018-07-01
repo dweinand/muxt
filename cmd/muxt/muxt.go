@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/dweinand/muxt"
+	"github.com/dweinand/muxt/shell"
 	"log"
-	"muxt"
 	"os"
-	"shell"
 )
 
 func main() {
