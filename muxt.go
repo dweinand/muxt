@@ -3,12 +3,12 @@ package muxt
 import (
 	"bytes"
 	"fmt"
+	"github.com/dweinand/muxt/shell"
+	"github.com/gobuffalo/packr"
 	"github.com/naoina/toml"
 	"io/ioutil"
-	"muxt/assets"
 	"os"
 	"path/filepath"
-	"shell"
 	"strings"
 	"text/template"
 )
@@ -116,7 +116,10 @@ func (s *Session) Start(sh shell.Execer) error {
 func (s *Session) Script() (string, error) {
 	var b bytes.Buffer
 
-	command, err := assets.Asset("tmux/command.sh")
+	// Assets is where the template files are located
+	assets := packr.NewBox("./assets")
+
+	command, err := assets.MustString("tmux/command.sh")
 	if err != nil {
 		return "", err
 	}

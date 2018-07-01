@@ -1,0 +1,58 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/muxt
+  docker:
+    - image: circleci/golang:1.10.3
+  environment:
+    GOPATH: /go
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: make dependencies
+      - run:
+          name: Run tests
+          command: make test
+      - run:
+          name: Upload to Codecov.io
+          command: make coverage
+      - run: OSES="darwin linux" make build
+      - store_artifacts:
+          path: bin
+      - persist_to_workspace:
+          root: .
+  release:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/muxt
+      - run:
+          name: Release version
+          command: |
+            export GITHUB_TAG=$CIRCLE_TAG
+            export GITHUB_REPONAME=$CIRCLE_PROJECT_REPONAME
+            export GITHUB_USERNAME=$CIRCLE_PROJECT_USERNAME
+            make release
+
+workflows:
+  version: 2
+  build-and-release:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+      - release:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branch:
+              ignore: /.*/
+

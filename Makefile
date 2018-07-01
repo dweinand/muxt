@@ -1,28 +1,35 @@
 prefix ?= /usr/local
+OSES ?= darwin
 
-.PHONY: all build assets dependencies test install clean
+.PHONY: all build assets test install clean
 
-all: dependencies test build
+all: test build
 
-build: assets src/muxt/**/*.go
-	gb build
+build: assets **/*.go $(OSES)
+	packr clean
 
-assets: src/muxt/assets/assets.go
+$(OSES): **/*.go
+	GOOS=$@ GOARCH=amd64 vgo build -o bin/muxt-$@-amd64 ./cmd/muxt
+
+assets:
+	packr
 
 dependencies:
-	gb vendor restore
-	cd vendor && gb build
-
-src/muxt/assets/assets.go: src/muxt/assets/**/*
-	vendor/bin/go-bindata -pkg=assets -o src/muxt/assets/assets.go -prefix=src/muxt/assets/ src/muxt/assets/...
+	go get -u golang.org/x/vgo
+	go get -u github.com/gobuffalo/packr/packr
 
 test: assets
-	gb test
+	vgo test -race -coverprofile=coverage.txt -covermode=atomic
+
+coverage:
+	bash <(curl -s https://codecov.io/bash)
 
 install: all
 	install -d $(prefix)/bin
 	install bin/muxt $(prefix)/bin
 
 clean:
-	rm -rf src/muxt/assets/assets.go bin pkg
+	rm -rf bin pkg
 
+release:
+	- ghr -t $(GITHUB_TOKEN) -u $(GITHUB_USERNAME) -r $(GITHUB_REPONAME) $(GITHUB_TAG) bin/
