@@ -9,17 +9,16 @@ build: assets **/*.go $(OSES)
 	packr clean
 
 $(OSES): **/*.go
-	GOOS=$@ GOARCH=amd64 vgo build -o bin/muxt-$@-amd64 ./cmd/muxt
+	GOOS=$@ GOARCH=amd64 go build -o bin/muxt-$@-amd64 ./cmd/muxt
 
 assets:
 	packr
 
 dependencies:
-	go get -u golang.org/x/vgo
 	go get -u github.com/gobuffalo/packr/packr
 
 test: assets
-	vgo test -race -coverprofile=coverage.txt -covermode=atomic
+	go test -race -coverprofile=coverage.txt -covermode=atomic
 
 install: all
 	install -d $(prefix)/bin
