@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      OSES: "darwin linux"
 
     steps:
     - uses: actions/checkout@v2
@@ -22,7 +24,7 @@ jobs:
       run: make test
     - uses: codecov/codecov-action@v1
     - name: Build
-      run: OSES="darwin linux" make build
+      run: make build
     - name: Release a version
       if: startsWith(github.ref, 'refs/tags/')
       run: |

@@ -30,5 +30,5 @@ clean:
 
 release:
 	mkdir -p pkg
-	$(foreach var,$(OSES),tar -C bin/$(var)-amd64 -cvzf pkg/muxt_$(GITHUB_TAG)_$(var)-amd64.tar.gz muxt;)
+	$(foreach os,$(OSES),tar -C bin/$(os)-amd64 -cvzf pkg/muxt_$(GITHUB_TAG)_$(os)-amd64.tar.gz muxt;)
 	ghr -t $(GITHUB_TOKEN) -u $(GITHUB_USERNAME) -r $(GITHUB_REPONAME) $(GITHUB_TAG) pkg/
