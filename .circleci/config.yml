@@ -28,8 +28,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Install ghr
-        command: go get github.com/tcnksm/ghr
+          name: Install ghr
+          command: go get github.com/tcnksm/ghr
       - run:
           name: Release version
           command: |
