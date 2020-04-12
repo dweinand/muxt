@@ -1,6 +1,6 @@
 # muxt
 
-![CircleCI](https://circleci.com/gh/dweinand/muxt.svg?style=svg&circle-token=d2dda66af3767333a8c0193974fd53b7df1ca619)
+![CI Status](https://github.com/dweinand/muxt/workflows/CI/badge.svg)
 
 
 
