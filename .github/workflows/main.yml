@@ -18,6 +18,8 @@ jobs:
     - run: make dependencies
     - name: Run tests
       run: make test
+    - name: Upload to Codecov.io
+      run: bash <(curl -s https://codecov.io/bash)
     - name: Build
       run: OSES="darwin linux" make build
     - name: Release a version
