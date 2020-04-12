@@ -24,4 +24,12 @@ jobs:
       run: make test
     - name: Build
       run: OSES="darwin linux" make build
+    - name: Release a version
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        go get github.com/tcnksm/ghr
+        export GITHUB_TAG=`echo $GITHUB_REF | sed "s|ref/tags/||"`
+        export GITHUB_REPONAME=`echo $GITHUB_REPOSITORY | cut -d '/' -f 2`
+        export GITHUB_USERNAME=`echo $GITHUB_REPOSITORY | cut -d '/' -f 1`
+        make release
 
