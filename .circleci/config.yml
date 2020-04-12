@@ -28,6 +28,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install ghr
+          command: go get github.com/tcnksm/ghr
+      - run:
           name: Release version
           command: |
             export GITHUB_TAG=$CIRCLE_TAG
