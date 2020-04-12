@@ -9,7 +9,8 @@ build: assets **/*.go $(OSES)
 	packr clean
 
 $(OSES): **/*.go
-	GOOS=$@ GOARCH=amd64 go build -o bin/muxt-$@-amd64 ./cmd/muxt
+	mkdir -p bin/$@-amd64
+	GOOS=$@ GOARCH=amd64 go build -o bin/$@-amd64/muxt ./cmd/muxt
 
 assets:
 	packr
@@ -28,4 +29,6 @@ clean:
 	rm -rf bin pkg
 
 release:
-	- ghr -t $(GITHUB_TOKEN) -u $(GITHUB_USERNAME) -r $(GITHUB_REPONAME) $(GITHUB_TAG) bin/
+	mkdir -p pkg
+	$(foreach os,$(OSES),tar -C bin/$(os)-amd64 -cvzf pkg/muxt_$(GITHUB_TAG)_$(os)-amd64.tar.gz muxt;)
+	ghr -t $(GITHUB_TOKEN) -u $(GITHUB_USERNAME) -r $(GITHUB_REPONAME) $(GITHUB_TAG) pkg/
