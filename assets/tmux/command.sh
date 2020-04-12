@@ -1,12 +1,8 @@
 #!/usr/bin/env sh
 
-tmux_config=`tmux start-server\; show-option -g`;
-
 get_tmux_config() {
-  echo `echo $tmux_config | grep $1 | cut -f2 -d ' ' | sed 's/"//'`
+  echo `tmux show-option -g | grep $1 | cut -f2 -d ' ' | sed 's/"//'`
 }
-
-base_index=`get_tmux_config "base-index"`
 
 {{$session := .}}
 
@@ -18,6 +14,7 @@ if [ "$?" -eq 1 ]; then
   echo "creating new session"
 
   TMUX= tmux new-session -d -s {{.Name}}{{if (gt (len .Window) 0)}}{{with (index .Window 0)}} -n {{.Name}}{{if .Root}} -c {{.Root}}{{end}}{{end}}{{end}}
+  base_index=`get_tmux_config "base-index"`
   {{range $idx, $window := .Window}}
   echo "setting up window $(({{$idx}}+$base_index))"
   window_target={{$session.Name}}:$(({{$idx}}+$base_index))
