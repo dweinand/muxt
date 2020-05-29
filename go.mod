@@ -26,7 +26,7 @@ require (
 	github.com/spf13/afero v1.2.0 // indirect
 	github.com/spf13/cobra v1.0.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/testify v1.5.1
+	github.com/stretchr/testify v1.6.0
 	github.com/ugorji/go/codec v0.0.0-20181209151446-772ced7fd4c2 // indirect
 	golang.org/x/crypto v0.0.0-20200406173513-056763e48d71 // indirect
 	golang.org/x/sync v0.0.0-20200317015054-43a5402ce75a // indirect
