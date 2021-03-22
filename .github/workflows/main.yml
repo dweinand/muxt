@@ -16,9 +16,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Extract tool versions from .tool-versions
+      id: tool_versions
+      run: |
+        echo "::set-output name=golang::$(grep '^golang ' .tool-versions | sed 's|golang ||')"
     - uses: actions/setup-go@v2
       with:
-        go-version: 1.14.2
+        go-version: ${{ steps.tool_versions.outputs.golang }}
     - run: make dependencies
     - name: Run tests
       run: make test
