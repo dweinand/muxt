@@ -2,9 +2,9 @@ package muxt
 
 import (
 	"bytes"
+	"embed"
 	"fmt"
 	"github.com/dweinand/muxt/shell"
-	"github.com/gobuffalo/packr"
 	"github.com/naoina/toml"
 	"io/ioutil"
 	"os"
@@ -12,6 +12,9 @@ import (
 	"strings"
 	"text/template"
 )
+
+//go:embed assets/tmux/command.sh
+var tmuxCommand embed.FS
 
 // ConfigDir is the location where muxt will look for config files
 var ConfigDir = filepath.Join(os.Getenv("HOME"), ".muxt")
@@ -116,10 +119,7 @@ func (s *Session) Start(sh shell.Execer) error {
 func (s *Session) Script() (string, error) {
 	var b bytes.Buffer
 
-	// Assets is where the template files are located
-	assets := packr.NewBox("./assets")
-
-	command, err := assets.MustString("tmux/command.sh")
+	command, err := tmuxCommand.ReadFile("assets/tmux/command.sh")
 	if err != nil {
 		return "", err
 	}

@@ -1,24 +1,20 @@
 prefix ?= /usr/local
 OSES ?= darwin
 
-.PHONY: all build assets test install clean
+.PHONY: all build test install clean
 
 all: test build
 
-build: assets **/*.go $(OSES)
-	packr clean
+build: **/*.go $(OSES)
 
 $(OSES): **/*.go
 	mkdir -p bin/$@-amd64
 	GOOS=$@ GOARCH=amd64 go build -o bin/$@-amd64/muxt ./cmd/muxt
 
-assets:
-	packr
-
 dependencies:
 	go get -u github.com/gobuffalo/packr/packr
 
-test: assets
+test:
 	go test -race -coverprofile=coverage.txt -covermode=atomic
 
 install: all
