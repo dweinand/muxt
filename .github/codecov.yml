@@ -1,0 +1,6 @@
+ignore:
+  - "assets/**/*"
+  - "cmd/**/*"
+
+fixes:
+  - "github.com/dweinand/muxt::"
