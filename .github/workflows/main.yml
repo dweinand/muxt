@@ -26,7 +26,7 @@ jobs:
     - run: make dependencies
     - name: Run tests
       run: make test
-    - uses: codecov/codecov-action@v1
+    - uses: codecov/codecov-action@v2.0.3
     - name: Build
       run: make build
     - name: Release a version
