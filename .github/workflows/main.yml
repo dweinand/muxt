@@ -20,7 +20,7 @@ jobs:
       id: tool_versions
       run: |
         echo "::set-output name=golang::$(grep '^golang ' .tool-versions | sed 's|golang ||')"
-    - uses: actions/setup-go@v2
+    - uses: actions/setup-go@v3
       with:
         go-version: ${{ steps.tool_versions.outputs.golang }}
     - run: make dependencies
